@@ -1,0 +1,112 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <title>Tom's retail calculator</title>
+    </head>
+    <body>
+
+
+    <form id="calc" action="">
+        <label for="product_amount">Количество товара:</label>
+        <input id="product_amount" type="text" name="product_amount">
+
+        <label for="single_product_price">Цена за единицу товара:</label>
+        <input id="single_product_price" type="text" name="single_product_price">
+
+        <label for="state_code">Код штата:</label>
+        <input id="state_code" type="text" name="state_code">
+
+        <button>Рассчитать цену</button>
+    </form>
+
+
+
+    <script type="text/javascript">
+    window.addEventListener( "load", function () {
+        const form = document.getElementById( "calc" );
+
+        function sendData() {
+            const XHR = new XMLHttpRequest();
+
+            XHR.addEventListener( "load", function(event) {
+                console.log(event.target)
+                if (event.target.status === 200) {
+                    showResult( JSON.parse(event.target.responseText) );
+                } else {
+                    showError( JSON.parse(event.target.responseText) );
+                }
+            } );
+
+            XHR.addEventListener( "error", function( event ) {
+                alert( 'Oops! Something went wrong.' );
+            } );
+
+            let urlEncodedData = "",
+                urlEncodedDataPairs = [],
+                name;
+
+            for( el of form.elements ) {
+                urlEncodedDataPairs.push( encodeURIComponent( el.name ) + '=' + encodeURIComponent( el.value ) );
+            }
+
+            urlEncodedData = urlEncodedDataPairs.join( '&' ).replace( /%20/g, '+' );
+
+            XHR.open( "GET", "/api/v1/calc/final_and_discount_price?" + urlEncodedData );
+            XHR.send()
+
+        }
+
+        function createResultNode() {
+
+            const prev_result = document.getElementById('result');
+            if (prev_result) {
+                prev_result.remove();
+            }
+
+            const result = document.createElement("div")
+            result.id = 'result'
+
+            return result;
+
+        }
+
+
+        function showResult(data) {
+            const result = createResultNode();
+
+            const price_with_discount = document.createElement("p")
+            price_with_discount.innerHTML = 'Цена со скидкой: ' + data['data']['price_with_discount'];
+
+            const final_price = document.createElement("p")
+            final_price.innerHTML = 'Финальная цена: ' + data['data']['final_price'];
+
+            result.appendChild(price_with_discount);
+            result.appendChild(final_price);
+
+            document.body.appendChild(result)
+        }
+
+        function showError(data) {
+            const result = createResultNode();
+
+            const error = document.createElement("p")
+            error.innerHTML = 'Ошибка: ' + data['error']['error'];
+
+            result.appendChild(error);
+
+            document.body.appendChild(result)
+        }
+
+
+
+        form.addEventListener( "submit", function ( event ) {
+            event.preventDefault();
+            sendData()
+
+        });
+    });
+    </script>
+
+    </body>
+</html>
