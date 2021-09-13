@@ -529,7 +529,7 @@ def _find_closest_in_range(ranges: Iterable[CT], what_to_find: CT) -> Optional[C
                  256
 
     For given inputs, `_find_closest_in_range` will return 100, because
-    100 is the closes range that includes 256.
+    100 is the closest range that includes 256.
 
     """
 
