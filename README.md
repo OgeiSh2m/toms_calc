@@ -29,6 +29,8 @@ curl -s 'http://127.0.0.1:8000/api/v1/calc/final_and_discount_price?product_amou
 
 ### Тесты
 
+[![Python application](https://github.com/OgeiSh2m/toms_calc/actions/workflows/tests.yaml/badge.svg)](https://github.com/OgeiSh2m/toms_calc/actions/workflows/tests.yaml)
+
 Тесы запускаются через `make`:
 
 (потребуется `make` и `python 3.9`)
