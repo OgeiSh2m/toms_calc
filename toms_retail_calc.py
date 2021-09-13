@@ -544,6 +544,7 @@ def _find_closest_in_range(ranges: Iterable[CT], what_to_find: CT) -> Optional[C
             return what_to_find
 
         elif what_to_find > middle_item:
+
             if len(ranges) == 1:
                 return middle_item
 
