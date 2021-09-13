@@ -497,7 +497,7 @@ def _percent_from_value(value: Decimal, percent: Optional[Decimal]) -> Decimal:
 
 def _is_optional(param: inspect.Parameter) -> bool:
     args_or_kwargs = (param.VAR_KEYWORD, param.VAR_POSITIONAL)
-    return param.kind in (args_or_kwargs) or type(None) in get_args(param.annotation)
+    return param.kind in args_or_kwargs or type(None) in get_args(param.annotation)
 
 
 class Comparable(Protocol):
