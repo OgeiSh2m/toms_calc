@@ -569,7 +569,7 @@ def setup_logging():
     logger.setLevel(logging.INFO)
 
 
-# MAIN
+# Main
 
 
 def main():
